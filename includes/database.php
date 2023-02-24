@@ -40,6 +40,25 @@ function get_connection() : mysqli {
 }
 
 /**
+ * @param string $string
+ *
+ * @return void
+ * @throws Exception
+ *
+ * @author Marc-Eric Boury
+ * @since  2023-02-24
+ */
+function validate_string(string $string) : void {
+    if (preg_match("/.*([?;`\"'()])+.*/mi", $string, $matches)) {
+        $return_val = false;
+        throw new Exception(
+            "Invalid character found in string: [".$matches[1]."]."
+        );
+        
+    }
+}
+
+/**
  * @param int $id
  *
  * @return array
@@ -73,6 +92,17 @@ function get_book(int $id) : array {
  * @since  2023-02-24
  */
 function create_book(string $title, string $isbn, string $author) : int|array {
+    try {
+        validate_string($title);
+        validate_string($isbn);
+        validate_string($author);
+    } catch (Exception $excep) {
+        return [
+            "errno" => 0,
+            "error" => $excep->getMessage(),
+            "exception" => $excep
+        ];
+    }
     $connection = get_connection();
     $statement = $connection->prepare("INSERT INTO `".DB_TABLE."` (`title`, `isbn`, `author`) VALUES (?, ?, ?);");
     $statement->bind_param("sss", $title, $isbn, $author);
@@ -100,6 +130,17 @@ function create_book(string $title, string $isbn, string $author) : int|array {
  * @since  2023-02-24
  */
 function edit_book(int $id, string $title, string $isbn, string $author) : bool|array {
+    try {
+        validate_string($title);
+        validate_string($isbn);
+        validate_string($author);
+    } catch (Exception $excep) {
+        return [
+            "errno" => 0,
+            "error" => $excep->getMessage(),
+            "exception" => $excep
+        ];
+    }
     $connection = get_connection();
     $statement = $connection->prepare("UPDATE `".DB_TABLE."` SET `title` = ?, `isbn` = ?, `author` = ? WHERE `id` = ?;");
     $statement->bind_param("sssi", $title, $isbn, $author, $id);
