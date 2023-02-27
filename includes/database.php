@@ -104,12 +104,17 @@ function create_book(string $title, string $isbn, string $author) : int|array {
         ];
     }
     $connection = get_connection();
-    $statement = $connection->prepare("INSERT INTO `".DB_TABLE."` (`title`, `isbn`, `author`) VALUES (?, ?, ?);");
-    $statement->bind_param("sss", $title, $isbn, $author);
+    $connection->begin_transaction();
     try {
+        $statement = $connection->prepare("INSERT INTO `".DB_TABLE."` (`title`, `isbn`, `author`) VALUES (?, ?, ?);");
+        $statement->bind_param("sss", $title, $isbn, $author);
         $statement->execute();
-        return $connection->insert_id;
+        $new_id = $connection->insert_id;
+        $connection->commit();
+        return $new_id;
+        
     } catch (mysqli_sql_exception $mysqli_ex) {
+        $connection->rollback();
         return [
             "errno" => $connection->errno,
             "error" => $connection->error,
