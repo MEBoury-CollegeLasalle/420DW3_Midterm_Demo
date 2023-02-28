@@ -36,38 +36,40 @@ try {
 <head>
     <title>Midterm evaluation demo</title>
     <link rel="stylesheet" href="<?=WEB_PUBLIC_DIR."css.css"?>">
-    <script src="<?=WEB_PUBLIC_DIR."jquery-3.6.3.js"?>"></script>
-    <script src="<?=WEB_PUBLIC_DIR."js.js"?>"></script>
 </head>
 <body>
 <h1>Book details:</h1>
-<form id="viewForm" method="post" action="<?=WEB_ACTIONS_PATH?>actions.php" >
-    <input type="hidden" id="actionInput" name="action">
+<form id="editForm" method="post" action="<?=WEB_ACTIONS_PATH?>actions.php" >
+    <input type="hidden" id="actionInput" name="action" value="edit">
     <div class="form-input-row">
         <label for="id">ID: </label>
         <input class="form-input" type="number" id="id" name="id" value="<?=$book["id"]?>" readonly>
     </div>
     <div class="form-input-row">
         <label for="title">Title: </label>
-        <input class="form-input editable-form-input" type="text" id="title" name="title" maxlength="256" value="<?=$book["title"]?>" readonly>
+        <input class="form-input editable-form-input" type="text" id="title" name="title" maxlength="256" value="<?=$book["title"]?>">
     </div>
     <div class="form-input-row">
         <label for="isbn">ISBN: </label>
-        <input class="form-input editable-form-input" type="text" id="isbn" name="isbn" maxlength="256" value="<?=$book["isbn"]?>" readonly>
+        <input class="form-input editable-form-input" type="text" id="isbn" name="isbn" maxlength="256" value="<?=$book["isbn"]?>">
     </div>
     <div class="form-input-row">
         <label for="author">Author: </label>
-        <input class="form-input editable-form-input" type="text" id="author" name="author" maxlength="256" value="<?=$book["author"]?>" readonly>
+        <input class="form-input editable-form-input" type="text" id="author" name="author" maxlength="256" value="<?=$book["author"]?>">
     </div>
     <div class="form-input-row">
         <label for="dateCreated">Date Created: </label>
         <input class="form-input" type="datetime-local" id="dateCreated" name="dateCreated" value="<?=$book["dateCreated"]?>" readonly>
     </div>
     <div class="form-input-row">
-        <button id="enableEditionButton" type="button">Enable Edition</button>
-        <button id="disableEditionButton" type="button" hidden>Disable Edition</button>
-        <button id="saveChangesButton" type="button" hidden>Save Changes</button>
-        <button id="deleteButton" type="button">Delete</button>
+        <input type="submit" value="Save Changes">
+    </div>
+</form>
+<form id="deleteForm" method="post" action="<?=WEB_ACTIONS_PATH?>actions.php" >
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="id"  value="<?=$book["id"]?>">
+    <div class="form-input-row">
+        <input type="submit" value="Delete">
     </div>
 </form>
 </body>
