@@ -30,6 +30,7 @@ const DB_TABLE = "books";
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 /**
+ *
  * @return mysqli
  *
  * @author Marc-Eric Boury
@@ -40,6 +41,7 @@ function get_connection() : mysqli {
 }
 
 /**
+ *
  * @param string $string
  *
  * @return void
@@ -50,11 +52,9 @@ function get_connection() : mysqli {
  */
 function validate_string(string $string) : void {
     if (preg_match("/.*([?;`\"'()])+.*/mi", $string, $matches)) {
-        $return_val = false;
         throw new Exception(
             "Invalid character found in string: [".$matches[1]."]."
         );
-        
     }
 }
 

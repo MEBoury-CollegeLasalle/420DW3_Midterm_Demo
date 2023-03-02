@@ -21,7 +21,7 @@ const INCLUDES_DIR = __DIR__.DIRECTORY_SEPARATOR;
 // WEB PATHS
 
 /**
- * Constant for the relative web url to the root of the website
+ * Constant for the relative web url to the root of the website.
  */
 const WEB_PROJECT_ROOT = "/420DW3_Midterm_Demo/";
 /**
